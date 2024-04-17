@@ -21,7 +21,7 @@ jobs:
       contents: read
     steps:
       - name: Install mardownlint
-        run: npm install -g markdownlint-cli@0.33.0
+        run: npm install -g markdownlint-cli@0.39.0
       - name: Checkout project
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
       - name: Execute markdownlint

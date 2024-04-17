@@ -1,8 +1,8 @@
 {{ define "metadata" }}
 namespace: {{ .Release.Namespace }}
-{{ include "labels" . }}
-{{- end }}
+{{- include "labels" . }}
 
+{{- end }}
 {{ define "labels" }}
 chart: {{ .Chart.Name }}
 release: {{ .Release.Name }}

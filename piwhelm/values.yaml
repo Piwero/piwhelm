@@ -1,0 +1,7 @@
+# Default values for piwhelm.
+global:
+  piwhelm: # to be replaced with chart name
+    configMap:
+      name: ""
+    deployment:
+

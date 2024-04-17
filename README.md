@@ -5,7 +5,7 @@ Reusable Helm template chart to deploy different K8s objects like deployments, c
 ####
 Testing This MELKF do
 ```shell
-echo YO
+Test this
 ```
 
 # Development

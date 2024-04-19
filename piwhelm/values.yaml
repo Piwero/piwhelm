@@ -17,6 +17,18 @@ global:
             protocol: TCP
             port: 443
             targetPort: 0000
-
-    deployment:
+    pvs:
+      - name: ""
+        enabled: true
+        storageClassName: ""
+        capacity:
+          storage: 1Gi
+        accessmodes:
+          accessModes:
+            - ReadWriteMany
+        persistentVolumeReclaimPolicy: Retain
+        nfs:
+          path: ""
+          server: ""
+          readOnly: false
 

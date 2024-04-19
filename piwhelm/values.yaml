@@ -12,7 +12,6 @@ global:
             protocol: TCP
             port: 80
             targetPort: 0000
-
           - name: https
             protocol: TCP
             port: 443
@@ -31,4 +30,11 @@ global:
           path: ""
           server: ""
           readOnly: false
-
+    pvcs:
+    - name: ""
+      enabled: true
+      storageClassName: ""
+      volumeName: ""
+      accessModes: [ReadWriteMany]
+      volumeMode: Filesystem
+      storage: 1Gi

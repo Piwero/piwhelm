@@ -6,10 +6,10 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: {{ .name | default (printf "%s-config" $.Chart.Name) }}
+  name: {{ .name | default (printf "%s-pv" $.Chart.Name) }}
 {{- include "metadata" $ | indent 2 }}
 spec:
-  storageClassName: {{ .storageClassName | default "" | indent 2 }}
+  storageClassName: {{ .storageClassName | default "" }}
   capacity:
     storage: {{ .capacity.storage }}
 {{ toYaml .accessmodes | indent 4 }}

@@ -6,7 +6,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .name | default (printf "%s-config" $.Chart.Name) }}
+  name: {{ .name | default (printf "%s-svc" $.Chart.Name) }}
 {{- include "metadata" $ | indent 2 }}
 spec:
 {{- include "selector" $ | indent 4 }}

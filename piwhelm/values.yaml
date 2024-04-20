@@ -4,6 +4,7 @@ global:
     configMap:
       name: ""
       enabled: false
+
     services:
       - name: ""
         enabled: false
@@ -17,6 +18,7 @@ global:
             protocol: TCP
             port: 443
             targetPort: 0000
+
     pvs:
       - name: ""
         enabled: false
@@ -31,6 +33,7 @@ global:
           path: ""
           server: ""
           readOnly: false
+
     pvcs:
     - name: ""
       enabled: false
@@ -39,3 +42,23 @@ global:
       accessModes: [ReadWriteMany]
       volumeMode: Filesystem
       storage: 1Gi
+
+    ingressroutes:
+      - name: ""
+        apiVersion: traefik.io/v1alpha1
+        enabled: false
+        serviceName: ""
+        entryPoints:
+          - web
+          - websecure
+        routes:
+          - match: Host(`your_domain.com`)
+            enabled: true
+            kind: Rule
+            middlewares: [ ]
+            services:
+              - kind: Service
+                enabled: true
+                name: service_name
+                namespace: ""
+                port: 80

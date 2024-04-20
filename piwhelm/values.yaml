@@ -2,12 +2,19 @@
 global:
   piwhelm: # to be replaced with chart name
     secrets: # Secrets configuration section
-      - name: secret1
+      imageCredentials:
+        name: my-credentials
         enabled: true
-        is_image_pull_secret: true
+        registry: quay.io
+        username: someone
+        password: sillyness
+        email: someone@host.com
+#      - name: secret1
+#        enabled: true
+#        is_image_pull_secret: true
 
     deployment: # Deployment configuration section
-      enabled: true
+      enabled: false
       name: piwhelm
       apiVersion: apps/v1
       replicas: 1

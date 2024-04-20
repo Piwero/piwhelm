@@ -1,6 +1,10 @@
 {{ define "metadata" }}
-namespace: {{ .Release.Namespace }}
+{{- include "namespace" . }}
 {{- include "labels" . }}
+{{- end }}
+
+{{ define "namespace" }}
+namespace: {{ .Release.Namespace }}
 {{- end }}
 
 {{ define "labels" }}

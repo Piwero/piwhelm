@@ -6,7 +6,6 @@ global:
         enabled: true
         is_image_pull_secret: true
 
-
     deployment:
       enabled: true
       name: piwhelm

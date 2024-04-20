@@ -1,7 +1,6 @@
 {{- define "piwhelm.manifest.deployment" }}
 {{ $dict := (get .Values.global .Chart.Name) }}
 {{- $secrets := $dict.secrets }}
-{{- if hasKey $dict "deployment" }}
 {{- $deployment := $dict.deployment }}
 {{- $containers := $deployment.containers }}
 {{- if $deployment.enabled -}}
@@ -21,6 +20,7 @@ spec:
   nodeSelector:
     {{- $deployment.nodeSelector | toYaml | nindent 10 }}
  {{- end }}
+{{- end }}
   containers:
 {{- range $containers }}
 {{- if .enabled }}
@@ -29,45 +29,46 @@ spec:
         imagePullPolicy: {{ .imagePullPolicy | default "IfNotPresent" }}
 {{- if .securityContext }}
         securityContext:
-          {{- .securityContext | toYaml | nindent 10 -}}
+          {{- .securityContext | toYaml | nindent 10 -}}{{- end }}
 {{- end }}
 {{- if .envFrom }}
         envFrom:
-          {{- .envFrom | toYaml | nindent 10 -}}
-{{- end }}
+          {{- .envFrom | toYaml | nindent 10 -}}{{- end }}
 {{- if .env }}
         env:
-{{- range .env }}
+        {{- range .env }}
         - name: {{ .name }}
           valueFrom:
             secretKeyRef:
               name: {{ .secretName }}
               key: {{ .secretKey }}
-{{- end }}
-{{- if .ports }}
+          {{- end }}
+        {{- end }}
+        {{- if .ports }}
         ports:
-{{- range .ports }}
+        {{- range .ports }}
         - containerPort: {{ .containerPort }}
           name: {{ .name }}
-{{- if .protocol }}
-          protocol: {{ .protocol }}
-{{- if .volumeMounts }}
+           {{- if .protocol }}
+          protocol: {{ .protocol }}{{- end }}
+          {{- end }}
+    {{- end }}
+        {{- if .volumeMounts }}
         volumeMounts:
-{{- range .volumeMounts }}
-        - name: {{ .name }}
-          mountPath: {{ .mountPath }}
-{{- end }}
-{{- end }}
-{{- end }}
-{{- end }}
-{{- end }}
-{{- end }}
-{{- end }}
-{{- end }}
+        {{- range .volumeMounts }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}{{- end }}
+        {{- end }}
+        {{- end }}
 
-{{- end }}
-{{- end }}
-{{- end }}
+    {{- range $secrets }}
+    {{- if .enabled }}
+    {{- if .is_image_pull_secret }}
+        imagePullSecrets:
+        - name: {{ .name }}{{- end }}
+    {{- end }}
+    {{- end }}
+    {{- end }}
 
 {{/*{{- range .secrets }}*/}}
 {{/* {{- if .enabled }}*/}}

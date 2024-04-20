@@ -1,6 +1,42 @@
 # Default values for piwhelm.
 global:
   piwhelm: # to be replaced with chart name
+    secrets:
+      - name: secret1
+        enabled: true
+        is_image_pull_secret: true
+
+
+    deployment:
+      enabled: true
+      name: piwhelm
+      apiVersion: apps/v1
+      replicas: 1
+      nodeSelector:
+        device: raspi
+      containers:
+        - name: container-1
+          enabled: true
+          image: docker-image-1
+          imagePullPolicy: ""
+          securityContext: # Can be commented out
+            capabilities:
+              add: [ "NET_ADMIN" ]
+          envFrom: # Can be commented out
+            - configMapRef:
+                name: configmap-name
+          env: # Can be commented out
+            - name: OPENVPN_USER
+              secretName: openvpn-user-secret
+              secretKey: OPENVPN_USER
+          ports:
+            - name: api
+              containerPort: 7878
+              protocol: TCP # Can be omitted
+          volumeMounts:
+            - name: radarr-volume-config
+              mountPath: /config
+
     configMap:
       name: ""
       enabled: false

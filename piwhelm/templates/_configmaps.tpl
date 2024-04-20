@@ -14,5 +14,5 @@ metadata:
 data:
 {{ tpl (.Files.Glob "config/*").AsConfig . | indent 4 }}
 {{- end }}
-{{- end}}
-{{- end}}
+{{- end }}
+{{- end }}

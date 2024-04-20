@@ -82,15 +82,3 @@ spec:
     {{- end }}
 
 
-{{/*      volumes:*/}}
-{{/*{{- range .Values.volumes }}*/}}
-{{/*        - name: {{ .name }}*/}}
-{{/*{{- if .emptyDir }}*/}}
-{{/*          emptyDir: {}*/}}
-{{/*{{- end }}*/}}
-{{/*{{- if .persistentVolumeClaim }}*/}}
-{{/*          persistentVolumeClaim:*/}}
-{{/*            claimName: {{ .persistentVolumeClaim }}*/}}
-
-
-

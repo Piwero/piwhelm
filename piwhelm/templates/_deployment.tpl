@@ -60,29 +60,28 @@ spec:
               mountPath: {{ .mountPath }}{{- end }}
         {{- end }}
         {{- end }}
+     {{- if $deployment.volumes }}
+     {{- $volumes := $deployment.volumes }}
+        volumes:
+        {{- range $volumes }}
+            - name: {{ .name}}
+              {{ if .emptyDir -}}
+              emptyDir: {}
+              {{- else -}}
+              persistentVolumeClaim: {{ .persistentVolumeClaim  }}{{- end }}
+              {{- end -}}
+        {{- end }}
 
     {{- range $secrets }}
     {{- if .enabled }}
     {{- if .is_image_pull_secret }}
         imagePullSecrets:
-        - name: {{ .name }}{{- end }}
+            - name: {{ .name }}{{- end }}
     {{- end }}
     {{- end }}
     {{- end }}
 
-{{/*{{- range .secrets }}*/}}
-{{/* {{- if .enabled }}*/}}
-{{/* {{- if .is_image_pull_secret }}*/}}
-{{/*      imagePullSecrets:*/}}
-{{/*        - name: {{ .name }}*/}}
-{{/* {{- end }}*/}}
-{{/* {{- end }}*/}}
-{{/* {{- end }}*/}}
 
-
-
-
-{{/*{{- end }}*/}}
 {{/*      volumes:*/}}
 {{/*{{- range .Values.volumes }}*/}}
 {{/*        - name: {{ .name }}*/}}

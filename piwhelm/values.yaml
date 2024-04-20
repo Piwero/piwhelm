@@ -25,16 +25,21 @@ global:
             - configMapRef:
                 name: configmap-name
           env: # Can be commented out
-            - name: OPENVPN_USER
-              secretName: openvpn-user-secret
-              secretKey: OPENVPN_USER
+            - name: ""
+              secretName: ""
+              secretKey: ""
           ports:
-            - name: api
-              containerPort: 7878
+            - name: ""
+              containerPort: ""
               protocol: TCP # Can be omitted
           volumeMounts:
-            - name: radarr-volume-config
-              mountPath: /config
+            - name: ""
+              mountPath: ""
+      volumes:
+        - name: log-volume
+          emptyDir: true # when true assigns {}
+        - name: ""
+          persistentVolumeClaim: pvc-claim-name
 
     configMap:
       name: ""

@@ -1,55 +1,55 @@
 # Default values for piwhelm.
 global:
   piwhelm: # to be replaced with chart name
-    secrets:
+    secrets: # Secrets configuration section
       - name: secret1
         enabled: true
         is_image_pull_secret: true
 
-    deployment:
+    deployment: # Deployment configuration section
       enabled: true
       name: piwhelm
       apiVersion: apps/v1
       replicas: 1
-      nodeSelector:
+      nodeSelector: # Node selector for deployment
         device: raspi
-      containers:
+      containers: # Containers configuration section
         - name: container-1
           enabled: true
           image: docker-image-1
           imagePullPolicy: ""
-          securityContext: # Can be commented out
+          securityContext: # Container security context (optional)
             capabilities:
               add: [ "NET_ADMIN" ]
-          envFrom: # Can be commented out
+          envFrom: # Environment variables from ConfigMap (optional)
             - configMapRef:
                 name: configmap-name
-          env: # Can be commented out
+          env: # Environment variables (optional)
             - name: ""
               secretName: ""
               secretKey: ""
-          ports:
+          ports: # Container ports (optional)
             - name: ""
               containerPort: ""
-              protocol: TCP # Can be omitted
-          volumeMounts:
+              protocol: TCP # Protocol (optional)
+          volumeMounts: # Volume mounts (optional)
             - name: ""
               mountPath: ""
-      volumes:
+      volumes: # Volumes for deployment (optional)
         - name: log-volume
-          emptyDir: true # when true assigns {}
+          emptyDir: true # Create an emptyDir volume
         - name: ""
           persistentVolumeClaim: pvc-claim-name
 
-    configMap:
+    configMap: # ConfigMap configuration section (optional)
       name: ""
       enabled: false
 
-    services:
+    services: # Kubernetes services configuration section (optional)
       - name: ""
         enabled: false
         type: ClusterIP
-        ports:
+        ports: # Service ports
           - name: http
             protocol: TCP
             port: 80
@@ -59,7 +59,7 @@ global:
             port: 443
             targetPort: 0000
 
-    pvs:
+    pvs: # PersistentVolumes configuration section (optional)
       - name: ""
         enabled: false
         storageClassName: ""
@@ -74,7 +74,7 @@ global:
           server: ""
           readOnly: false
 
-    pvcs:
+    pvcs: # PersistentVolumeClaims configuration section (optional)
     - name: ""
       enabled: false
       storageClassName: ""
@@ -83,7 +83,7 @@ global:
       volumeMode: Filesystem
       storage: 1Gi
 
-    ingressroutes:
+    ingressroutes: # Ingress routes configuration section (optional)
       - name: ""
         apiVersion: traefik.io/v1alpha1
         enabled: false

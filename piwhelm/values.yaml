@@ -10,14 +10,18 @@ global:
         password: sillyness
         email: someone@host.com
       otherSecrets:
-      - name: secret1
-        enabled: true
-        data:
-          - secret1: value1
-
-#      - name: secret1
-#        enabled: true
-#        is_image_pull_secret: true
+        - name: secret1
+          enabled: true
+          type: Opaque
+          data:
+            secret1: value1
+            secret2: value2
+        - name: secret2
+          enabled: true
+          type: Opaque
+          data:
+            secret3: value3
+            secret4: value4
 
     deployment: # Deployment configuration section
       enabled: false

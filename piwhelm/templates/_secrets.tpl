@@ -1,40 +1,22 @@
-{{- define "piwhelm.manifest.secrets" }}
-{{- $dict := (get .Values.global .Chart.Name ) -}}
-{{- $secrets := $dict.secrets -}}
-{{- if hasKey ($secrets "imageCredentials" )}}
-{{- if $secrets.imageCredentials.enabled -}}
-{{- include "imageCredentialsSecret" . -}}
-{{- end }}
-{{- end }}
-{{- end }}
-
-
-
-{{- define "imageCredentialsSecret" -}}
-{{- $dict := (get .Values.global .Chart.Name ) -}}
-{{- $secrets := $dict.secrets -}}
-{{- if $secrets.imageCredentials.enabled -}}
-{{- $dict := (get .Values.global .Chart.Name ) -}}
-{{- $secrets := $dict.secrets -}}
-{{- if $secrets.imageCredentials.enabled -}}
+{{- define "piwhelm.manifest.otherSecrets" }}
+{{ $dict := (get .Values.global .Chart.Name )}}
+{{ $secrets := $dict.secrets }}
+{{ $otherSecrets := $secrets.otherSecrets }}
+{{- range  $otherSecrets }}
+{{- if .enabled }}
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{ $secrets.imageCredentials.name }}
-{{- end }}
-{{- include "metadata" . | indent 2 }}
-type: kubernetes.io/dockerconfigjson
+  name: {{ .name | default (printf "%s-secret" $.Chart.Name) }}
+{{- include "metadata" $ | indent 2 }}
+type: {{ .type}}
 data:
-  .dockerconfigjson: {{ template "imagePullSecretCredentials" . }}
+  {{- range $key, $val := .data }}
+    {{ $key }}: "{{ $val }}"
+  {{- end }}
 {{- end }}
-{{- end -}}
+---
+{{- end }}
+{{- end }}
 
-{{- define "imagePullSecretCredentials" -}}
-{{- $dict := (get .Values.global .Chart.Name ) -}}
-{{- $secrets := $dict.secrets -}}
-{{- if $secrets.imageCredentials.enabled -}}
-{{- with $secrets.imageCredentials -}}
-{{- printf "{\"auths\":{\"%s\":{\"username\":\"%s\",\"password\":\"%s\",\"email\":\"%s\",\"auth\":\"%s\"}}}" .registry .username .password .email (printf "%s:%s" .username .password | b64enc) | b64enc }}
-{{- end -}}
-{{- end -}}
-{{- end -}}
+

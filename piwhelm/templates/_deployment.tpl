@@ -35,16 +35,6 @@ spec:
 {{- if .envFrom }}
         envFrom:
           {{- .envFrom | toYaml | nindent 10 -}}{{- end }}
-{{- if .env }}
-        env:
-        {{- range .env }}
-        - name: {{ .name }}
-          valueFrom:
-            secretKeyRef:
-              name: {{ .secretName }}
-              key: {{ .secretKey }}
-          {{- end }}
-        {{- end }}
         {{- if .ports }}
         ports:
         {{- range .ports }}
@@ -73,6 +63,21 @@ spec:
               {{- end -}}
         {{- end }}
 
+    {{- if $secrets.imageCredentials.enabled }}
+        imagePullSecrets:
+            - name: {{ $secrets.imageCredentials.name }}{{- end }}
+    {{- end }}
+{{- $otherSecrets := $secrets.otherSecrets }}
+{{- if $otherSecrets }}
+        env:
+{{- range $otherSecrets }}
+        - name: {{ .name }}
+          valueFrom:
+            secretKeyRef:
+              {{- range $key, $val := .data }}
+              name: {{ $key }}
+              key: {{ $key }}{{- end }}
+        {{- end }}
     {{- if $secrets.imageCredentials.enabled }}
         imagePullSecrets:
             - name: {{ $secrets.imageCredentials.name }}{{- end }}

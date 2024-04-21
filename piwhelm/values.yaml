@@ -14,17 +14,17 @@ global:
           enabled: true
           type: Opaque
           data:
-            secret1: value1
-            secret2: value2
+            secretkey1: value1
+            secretkey2: value2
         - name: secret2
           enabled: true
           type: Opaque
           data:
-            secret3: value3
-            secret4: value4
+            secretkey3: value3
+            secretkey4: value4
 
     deployment: # Deployment configuration section
-      enabled: false
+      enabled: true
       name: piwhelm
       apiVersion: apps/v1
       replicas: 1
@@ -41,10 +41,10 @@ global:
           envFrom: # Environment variables from ConfigMap (optional)
             - configMapRef:
                 name: configmap-name
-          env: # Environment variables (optional)
-            - name: ""
-              secretName: ""
-              secretKey: ""
+#          env: # Environment variables (optional)
+#            - name: ""
+#              secretName: ""
+#              secretKey: ""
           ports: # Container ports (optional)
             - name: ""
               containerPort: ""

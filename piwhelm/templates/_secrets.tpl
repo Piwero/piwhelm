@@ -12,7 +12,7 @@ metadata:
 type: {{ .type}}
 data:
   {{- range $key, $val := .data }}
-    {{ $key }}: "{{ $val }}"
+    {{ $key | b64enc }}: "{{ $val | b64enc }}"
   {{- end }}
 {{- end }}
 ---

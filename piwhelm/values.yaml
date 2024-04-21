@@ -9,6 +9,11 @@ global:
         username: someone
         password: sillyness
         email: someone@host.com
+      otherSecrets:
+      - name: secret1
+        enabled: true
+        data:
+
 #      - name: secret1
 #        enabled: true
 #        is_image_pull_secret: true
@@ -22,7 +27,7 @@ global:
         device: raspi
       containers: # Containers configuration section
         - name: container-1
-          enabled: true
+          enabled: false
           image: docker-image-1
           imagePullPolicy: ""
           securityContext: # Container security context (optional)

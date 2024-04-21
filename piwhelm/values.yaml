@@ -42,12 +42,12 @@ global:
             - configMapRef:
                 name: configmap-name
           ports: # Container ports (optional)
-            - name: ""
-              containerPort: ""
+            - name: name-port-example
+              containerPort: 8888
               protocol: TCP # Protocol (optional)
           volumeMounts: # Volume mounts (optional)
-            - name: ""
-              mountPath: ""
+            - name: volume-example
+              mountPath: path/to/volume
       volumes: # Volumes for deployment (optional)
         - name: log-volume
           emptyDir: true # Create an emptyDir volume

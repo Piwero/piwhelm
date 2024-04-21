@@ -21,6 +21,7 @@ spec:
     {{- $deployment.nodeSelector | toYaml | nindent 10 }}
  {{- end }}
 {{- end }}
+{{- if $deployment.enabled -}}
   containers:
 {{- range $containers }}
 {{- if .enabled }}
@@ -72,13 +73,13 @@ spec:
               {{- end -}}
         {{- end }}
 
-    {{- range $secrets }}
-    {{- if .enabled }}
-    {{- if .is_image_pull_secret }}
-        imagePullSecrets:
-            - name: {{ .name }}{{- end }}
+{{/*    {{- range $secrets }}*/}}
+{{/*    {{- if .enabled }}*/}}
+{{/*    {{- if .is_image_pull_secret }}*/}}
+{{/*        imagePullSecrets:*/}}
+{{/*            - name: {{ .name }}{{- end }}*/}}
+{{/*    {{- end }}*/}}
+{{/*    {{- end }}*/}}
     {{- end }}
     {{- end }}
-    {{- end }}
-
 

@@ -40,7 +40,7 @@ global:
               add: [ "NET_ADMIN" ]
           envFrom: # Environment variables from ConfigMap (optional)
             - configMapRef:
-                name: configmap-name
+                name: configmap-name # To match with configMap.name below
           ports: # Container ports (optional)
             - name: name-port-example
               containerPort: 8888

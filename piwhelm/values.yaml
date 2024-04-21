@@ -4,20 +4,20 @@ global:
     secrets: # Secrets configuration section
       imageCredentials: # Credentials secrets configuration section (optional)
         name: my-credentials
-        enabled: true
+        enabled: false
         registry: quay.io
         username: someone
         password: sillyness
         email: someone@host.com
       otherSecrets:
         - name: secret1
-          enabled: true
+          enabled: false
           type: Opaque
           data:
             secretkey1: value1
             secretkey2: value2
         - name: secret2
-          enabled: true
+          enabled: false
           type: Opaque
           data:
             secretkey3: value3
@@ -32,7 +32,7 @@ global:
         device: raspi
       containers: # Containers configuration section
         - name: container-1
-          enabled: false
+          enabled: true
           image: docker-image-1
           imagePullPolicy: ""
           securityContext: # Container security context (optional)
@@ -41,10 +41,6 @@ global:
           envFrom: # Environment variables from ConfigMap (optional)
             - configMapRef:
                 name: configmap-name
-#          env: # Environment variables (optional)
-#            - name: ""
-#              secretName: ""
-#              secretKey: ""
           ports: # Container ports (optional)
             - name: ""
               containerPort: ""
@@ -55,12 +51,12 @@ global:
       volumes: # Volumes for deployment (optional)
         - name: log-volume
           emptyDir: true # Create an emptyDir volume
-        - name: ""
+        - name: name-volume
           persistentVolumeClaim: pvc-claim-name
 
     configMap: # ConfigMap configuration section (optional)
-      name: ""
-      enabled: false
+      name: configmap-name
+      enabled: true
 
     services: # Kubernetes services configuration section (optional)
       - name: ""

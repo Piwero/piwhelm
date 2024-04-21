@@ -6,11 +6,12 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: {{ $secrets.imageCredentials.name }}
-{{- end }}
+
 {{- include "metadata" . | indent 2 }}
 type: kubernetes.io/dockerconfigjson
 data:
   .dockerconfigjson: {{ template "imagePullSecret" . }}
+{{- end }}
 {{- end }}
 
 {{- define "imagePullSecret" -}}

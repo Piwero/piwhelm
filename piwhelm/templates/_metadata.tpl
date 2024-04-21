@@ -8,7 +8,8 @@ namespace: {{ .Release.Namespace }}
 {{- end }}
 
 {{ define "labels" }}
-chart: {{ .Chart.Name }}
-release: {{ .Release.Name }}
-version: {{ .Chart.Version }}
+labels:
+    chart: {{ .Chart.Name }}
+    release: {{ .Release.Name }}
+    version: {{ .Chart.Version }}
 {{- end }}

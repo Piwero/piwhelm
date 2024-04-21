@@ -2,7 +2,7 @@
 global:
   piwhelm: # to be replaced with chart name
     secrets: # Secrets configuration section
-      imageCredentials:
+      imageCredentials: # Credentials secrets configuration section (optional)
         name: my-credentials
         enabled: true
         registry: quay.io
@@ -13,6 +13,7 @@ global:
       - name: secret1
         enabled: true
         data:
+          - secret1: value1
 
 #      - name: secret1
 #        enabled: true

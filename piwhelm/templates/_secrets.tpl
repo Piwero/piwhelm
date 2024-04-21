@@ -1,10 +1,22 @@
 {{- define "piwhelm.manifest.secrets" }}
-{{ $dict := (get .Values.global .Chart.Name )}}
-{{ $secrets := $dict.secrets }}
-{{ if $secrets.imageCredentials.enabled }}
-{{ $dict := (get .Values.global .Chart.Name )}}
-{{ $secrets := $dict.secrets }}
-{{ if $secrets.imageCredentials.enabled }}
+{{- $dict := (get .Values.global .Chart.Name ) -}}
+{{- $secrets := $dict.secrets -}}
+{{- if hasKey ($secrets "imageCredentials" )}}
+{{- if $secrets.imageCredentials.enabled -}}
+{{- include "imageCredentialsSecret" . -}}
+{{- end }}
+{{- end }}
+{{- end }}
+
+
+
+{{- define "imageCredentialsSecret" -}}
+{{- $dict := (get .Values.global .Chart.Name ) -}}
+{{- $secrets := $dict.secrets -}}
+{{- if $secrets.imageCredentials.enabled -}}
+{{- $dict := (get .Values.global .Chart.Name ) -}}
+{{- $secrets := $dict.secrets -}}
+{{- if $secrets.imageCredentials.enabled -}}
 apiVersion: v1
 kind: Secret
 metadata:
@@ -15,8 +27,7 @@ type: kubernetes.io/dockerconfigjson
 data:
   .dockerconfigjson: {{ template "imagePullSecretCredentials" . }}
 {{- end }}
-{{- end }}
-
+{{- end -}}
 
 {{- define "imagePullSecretCredentials" -}}
 {{- $dict := (get .Values.global .Chart.Name ) -}}

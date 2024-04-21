@@ -4,14 +4,14 @@ global:
     secrets: # Secrets configuration section
       imageCredentials: # Credentials secrets configuration section (optional)
         name: my-credentials
-        enabled: false
+        enabled: true
         registry: quay.io
         username: someone
         password: sillyness
         email: someone@host.com
       otherSecrets:
         - name: secret1
-          enabled: false
+          enabled: true
           type: Opaque
           data:
             secretkey1: value1

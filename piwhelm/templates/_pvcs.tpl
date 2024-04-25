@@ -9,7 +9,8 @@ metadata:
   name: {{ .name | default (printf "%s-pvc" $.Chart.Name) }}
 {{- include "metadata" $ | indent 2 }}
 spec:
-  storageClassName: {{ .storageClassName | default "" }}
+{{- if .storageClassName }}
+  storageClassName: {{ .storageClassName | default "" }}{{- end }}
   volumeName: {{ .volumeName | default "" }}
   accessModes: {{ .accessModes | default "[]" }}
   resources:

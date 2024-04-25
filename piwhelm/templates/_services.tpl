@@ -9,7 +9,7 @@ metadata:
   name: {{ .name | default (printf "%s-svc" $.Chart.Name) }}
 {{- include "metadata" $ | indent 2 }}
 spec:
-{{- include "selector" $ | indent 4 }}
+{{/*{{- include "selector" $ | indent 4 }}*/}}
     type: {{ .type | default "ClusterIP" }}
     ports:
 {{ toYaml .ports | indent 4 }}

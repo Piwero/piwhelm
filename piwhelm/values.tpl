@@ -78,9 +78,7 @@ global:
         storageClassName: ""
         capacity:
           storage: 1Gi
-        accessmodes:
-          accessModes:
-            - ReadWriteMany
+        accessModes: [ReadWriteMany]
         persistentVolumeReclaimPolicy: Retain
         nfs:
           path: ""

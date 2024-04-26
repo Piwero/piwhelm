@@ -3,6 +3,7 @@
 {{- if hasKey $dict "pvs" }}
 {{- range $dict.pvs }}
 {{- if .enabled -}}
+---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -20,7 +21,6 @@ spec:
     path: {{ .nfs.path}}
     server: {{ .nfs.server}}
     readOnly: {{ .nfs.readOnly }}
----
 {{- end }}
 {{- end }}
 {{- end }}

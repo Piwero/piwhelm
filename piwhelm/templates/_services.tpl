@@ -3,6 +3,7 @@
 {{- if hasKey $dict "services" }}
 {{- range $dict.services }}
 {{- if .enabled -}}
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -14,7 +15,6 @@ spec:
     type: {{ .type | default "ClusterIP" }}
     ports:
 {{ toYaml .ports | indent 4 }}
----
 {{- end }}
 {{- end }}
 {{- end }}

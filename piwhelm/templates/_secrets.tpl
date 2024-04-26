@@ -4,6 +4,7 @@
 {{ $otherSecrets := $secrets.otherSecrets }}
 {{- range  $otherSecrets }}
 {{- if .enabled }}
+---
 apiVersion: v1
 kind: Secret
 metadata:
@@ -15,7 +16,6 @@ data:
     {{ $key }}: "{{ $val | b64enc }}"
   {{- end }}
 {{- end }}
----
 {{- end }}
 {{- end }}
 

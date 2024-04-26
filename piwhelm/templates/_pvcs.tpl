@@ -3,6 +3,7 @@
 {{- if hasKey $dict "pvcs" }}
 {{- range $dict.pvcs }}
 {{- if .enabled -}}
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -17,7 +18,6 @@ spec:
     requests:
         storage: {{ .storage }}
 {{- end }}
----
 {{- end }}
 {{- end }}
 {{- end }}

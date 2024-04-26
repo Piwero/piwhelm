@@ -4,6 +4,7 @@
 {{- if hasKey $dict "ingressroutes" }}
 {{- range $dict.ingressroutes }}
 {{- if .enabled -}}
+---
 apiVersion: {{ .apiVersion | default "traefik.io/v1alpha1" }}
 kind: IngressRoute
 metadata:
@@ -24,7 +25,6 @@ spec:
             name: {{ .name }}
             namespace: {{ .namespace | default $namespace }}
             port: {{ .port }}
----
 {{- end }}
 {{- end }}
 {{- end }}

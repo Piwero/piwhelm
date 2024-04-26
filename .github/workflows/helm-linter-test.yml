@@ -45,8 +45,6 @@ jobs:
       - name: Create kind cluster
         if: steps.list-changed.outputs.changed == 'true'
         uses: helm/kind-action@v1.10.0
-        run: |
-          echo "Creating a Kubernetes cluster using kind..."
 
       - name: Run chart-testing (install)
         if: steps.list-changed.outputs.changed == 'true'

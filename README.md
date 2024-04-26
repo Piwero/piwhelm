@@ -11,7 +11,7 @@ Reusable Helm template chart to deploy different K8s objects like deployments, c
     ```yaml
     dependencies:
       - name: piwhelm
-        version: "0.0.2" # or latest version 
+        version: "0.0.6" # or latest version 
         repository: "https://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@raw.githubusercontent.com/Piwero/helm_git_repo/master" 
     ```
 

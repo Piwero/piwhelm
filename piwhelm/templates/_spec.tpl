@@ -1,5 +1,4 @@
 {{- define "spec" }}
-{{ $dict := (get .Values.global .Chart.Name )}}
 {{- include "selector" . }}
 {{- end }}
 

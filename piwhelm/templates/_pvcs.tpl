@@ -16,8 +16,8 @@ spec:
   resources:
     requests:
         storage: {{ .storage }}
----
 {{- end }}
+---
 {{- end }}
 {{- end }}
 {{- end }}

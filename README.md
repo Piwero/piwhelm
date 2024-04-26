@@ -1,31 +1,49 @@
 # PiwHelm
 
-Reusable Helm template chart to deploy different K8s objects like deployments, configmaps, secrets, ingress ...
+PiwHelm is a reusable Helm template chart designed to streamline the deployment of various Kubernetes objects, including deployments, configmaps, secrets, and ingress configurations. This Helm library is specifically tailored for deploying applications with Traefik through Cloudflare tunnels within Kubernetes environments.
 
 ## TL;DR
 
+PiwHelm simplifies the deployment process of Kubernetes applications with Traefik and Cloudflare tunnels, enabling efficient and consistent setup of essential resources.
+
 ## Usage
 
-1. Create a `Chart.yaml` file for your new app and add
+1. Incorporate PiwHelm as a dependency in your Helm chart's `Chart.yaml` file:
 
     ```yaml
     dependencies:
       - name: piwhelm
-        version: "0.0.6" # or latest version 
+        version: "0.0.6" # or specify the latest version 
         repository: "https://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@raw.githubusercontent.com/Piwero/helm_git_repo/master" 
+
     ```
 
-2. Run `helm dependency build` or `helm dependency update` if version is updated
-3. Create a `config/` directory and add your config.yaml with your configmaps keys and values
-4. Copy the existing `values.tpl` file to your desired directory with name `values.yaml`
-5. Replace the values from `values.yaml` with the required data for running your application (Don't forget to rename the piwhelm value under global with the name of your new repository)
-6. Copy ONLY the files you want to add to your app from `piwhelm/usable-templates/` tp `your-chart/templates/`
-7. Run `helm dependency build`
-8. Then run `helm install <NAME_OF_NEW_APP> . --namespace <NAME_OF_NEW_NS> --create-namespace
+2. Update dependencies using `helm dependency build` or `helm dependency update` if the version is updated.
+3. Create a `config/` directory within your chart and populate it with your `config.yaml`, containing the necessary configmap keys and values.
+4. Duplicate the existing `values.tpl` file and rename it to `values.yaml` in your desired directory.
+5. Customize the values in `values.yaml` to match the requirements of your application. Ensure to replace the `piwhelm` value under `global` with the name of your new repository.
+6. Selectively copy required files from `piwhelm/usable-templates/` to `your-chart/templates/` directory based on your application's needs.
+7. Rebuild dependencies with `helm dependency build`.
+8. Install your new application using Helm with the following command:
+
+    ```bash
+    helm install <NAME_OF_NEW_APP> . --namespace <NAME_OF_NEW_NS> --create-namespace
+    ```
 
 ## Development
 
-1. Give execution permissions to all sh files
-`find . -name '*.sh' | xargs git update-index --chmod=+x`
-2. Install pre-commit
-`sh tools/pre-commit-setup.sh`
+1. Grant execution permissions to all shell scripts within the project:
+
+    ```bash
+    find . -name '*.sh' | xargs git update-index --chmod=+x
+    ```
+
+2. Set up pre-commit hooks for consistent code quality:
+
+    ```bash
+    sh tools/pre-commit-setup.sh
+    ```
+
+By following these steps, you can seamlessly integrate PiwHelm into your Helm charts, ensuring smooth and efficient deployment of Kubernetes applications with Traefik and Cloudflare tunnels.
+
+Feel free to contribute and improve PiwHelm by submitting pull requests or reporting issues on the GitHub repository. Your feedback and contributions are greatly appreciated!

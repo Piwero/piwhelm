@@ -2,9 +2,9 @@ repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v2.3.0
   hooks:
-  - id: check-yaml
-    args: [--allow-multiple-documents]
-
+  - id: pretty-format-json
+    args:
+      - --autofix
 - repo: https://github.com/gruntwork-io/pre-commit
   rev: v0.0.9
   hooks:
@@ -14,3 +14,5 @@ repos:
   rev: v0.39.0
   hooks:
   - id: markdownlint
+    args:
+      - --fix

@@ -1,0 +1,115 @@
+# Default values for piwhelm.
+global:
+  piwhelm: # to be replaced with chart name
+    secrets: # Secrets configuration section
+      imageCredentials: # Credentials secrets configuration section (optional)
+        name: my-credentials
+        enabled: true
+        registry: quay.io
+        username: someone
+        password: sillyness
+        email: someone@host.com
+      otherSecrets:
+        - name: secret1
+          enabled: true
+          type: Opaque
+          data:
+            secretkey1: value1
+            secretkey2: value2
+        - name: secret2
+          enabled: false
+          type: Opaque
+          data:
+            secretkey3: value3
+            secretkey4: value4
+
+    deployment: # Deployment configuration section
+      enabled: true
+      name: piwhelm
+      apiVersion: apps/v1
+      replicas: 1
+      nodeSelector: # Node selector for deployment
+        device: raspi
+      containers: # Containers configuration section
+        - name: container-1
+          enabled: true
+          image: docker-image-1
+          imagePullPolicy: ""
+          securityContext: # Container security context (optional)
+            capabilities:
+              add: [ "NET_ADMIN" ]
+          envFrom: # Environment variables from ConfigMap (optional)
+            - configMapRef:
+                name: configmap-name # To match with configMap.name below
+          ports: # Container ports (optional)
+            - name: name-port-example
+              containerPort: 8888
+              protocol: TCP # Protocol (optional)
+          volumeMounts: # Volume mounts (optional)
+            - name: volume-example
+              mountPath: path/to/volume
+      volumes: # Volumes for deployment (optional)
+        - name: log-volume
+          emptyDir: true # Create an emptyDir volume
+        - name: name-volume
+          persistentVolumeClaim: pvc-claim-name
+
+    configMap: # ConfigMap configuration section (optional)
+      name: configmap-name
+      enabled: true
+
+    services: # Kubernetes services configuration section (optional)
+      - name: ""
+        enabled: false
+        type: ClusterIP
+        ports: # Service ports
+          - name: http
+            protocol: TCP
+            port: 80
+            targetPort: 0000
+          - name: https
+            protocol: TCP
+            port: 443
+            targetPort: 0000
+
+    pvs: # PersistentVolumes configuration section (optional)
+      - name: ""
+        enabled: false
+        storageClassName: ""
+        capacity:
+          storage: 1Gi
+        accessModes: [ReadWriteMany]
+        persistentVolumeReclaimPolicy: Retain
+        nfs:
+          path: ""
+          server: ""
+          readOnly: false
+
+    pvcs: # PersistentVolumeClaims configuration section (optional)
+    - name: ""
+      enabled: false
+      storageClassName: ""
+      volumeName: ""
+      accessModes: [ReadWriteMany]
+      volumeMode: Filesystem
+      storage: 1Gi
+
+    ingressroutes: # Ingress routes configuration section (optional)
+      - name: ""
+        apiVersion: traefik.io/v1alpha1
+        enabled: false
+        serviceName: ""
+        entryPoints:
+          - web
+          - websecure
+        routes:
+          - match: Host(`your_domain.com`)
+            enabled: true
+            kind: Rule
+            middlewares: [ ]
+            services:
+              - kind: Service
+                enabled: true
+                name: service_name
+                namespace: ""
+                port: 80

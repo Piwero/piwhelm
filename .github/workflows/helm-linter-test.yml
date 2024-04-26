@@ -24,4 +24,4 @@ jobs:
       - name: Run Helm lint
         id: lint-helm
         run: |
-          helm lint .
+          helm lint piwhelm/

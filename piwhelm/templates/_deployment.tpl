@@ -6,21 +6,22 @@ containers:
   - name: {{ .name }}
     image: {{ .image }}
     imagePullPolicy: {{ .imagePullPolicy | default "IfNotPresent" }}
-    {{- if .securityContext }}
+    {{- with .securityContext }}
     securityContext:
-      {{- .securityContext | toYaml | nindent 8 -}}{{- end }}
-    {{- if .ports }}
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .ports }}
     ports:
-    {{- range .ports }}
+    {{- range . }}
     - containerPort: {{ .containerPort }}
       name: {{ .name }}
-      {{- if .protocol }}
-      protocol: {{ .protocol }}{{- end }}
+      {{- with .protocol }}
+      protocol: {{ . }}{{- end }}
     {{- end }}
     {{- end }}
-    {{- if .volumeMounts }}
+    {{- with .volumeMounts }}
     volumeMounts:
-    {{- range .volumeMounts }}
+    {{- range . }}
       - name: {{ .name }}
         mountPath: {{ .mountPath }}
     {{- end }}
@@ -50,11 +51,11 @@ containers:
 {{- $secrets := $dict.secrets }}
 {{- $configMap := $dict.configMap }}
 {{- $deployment := $dict.deployment }}
-{{- if $deployment.enabled -}}
+{{- if $deployment.enabled }}
 apiVersion: {{ $deployment.apiVersion }}
 kind: Deployment
 metadata:
-  name: {{ $deployment.name | default (printf "%s-deploy" $.Chart.Name) }}
+  name: {{ default $deployment.name (printf "%s-deploy" $.Chart.Name) }}
 {{- include "metadata" $ | indent 2 }}
 spec:
   replicas: {{ $deployment.replicas }}
@@ -63,19 +64,19 @@ spec:
     metadata:
       {{- include "labels" $ | indent 10 }}
     spec:
-      {{- if $deployment.nodeSelector }}
+      {{- with $deployment.nodeSelector }}
       nodeSelector:
-        {{- $deployment.nodeSelector | toYaml | nindent 10 }}
+        {{- toYaml . | nindent 10 }}
       {{- end }}
       {{- include "piwhelm.containers" (dict "deployment" $deployment) | nindent 6 }}
       {{- include "piwhelm.envFrom" (dict "configMap" $configMap "secrets" $secrets) | nindent 6 }}
-      {{- if $deployment.volumes }}
+      {{- with $deployment.volumes }}
       volumes:
-        {{- range $deployment.volumes }}
+        {{- range . }}
         - name: {{ .name }}
-          {{ if .emptyDir -}}
+          {{- if .emptyDir }}
           emptyDir: {}
-          {{- else -}}
+          {{- else }}
           persistentVolumeClaim:
             claimName: {{ .persistentVolumeClaim }}
           {{- end }}

@@ -6,7 +6,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-    name: {{ $dict.configMap.name | default (printf "%s-config" .Chart.Name) }}
+    name: {{ $configMap.name | default (printf "%s-config" .Chart.Name) }}
 {{- include "metadata" . | indent 4 }}
 data:
 {{ tpl (.Files.Glob "config/*").AsConfig . | indent 4 }}

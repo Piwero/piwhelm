@@ -1,0 +1,19 @@
+apiVersion: v1
+entries:
+  piwhelm:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2024-04-27T10:53:11.357623251Z"
+    description: PiWhelm is a reusable Helm template chart to deploy different K8s
+      objects like deployments, configmaps, secrets, ingress ...
+    digest: 3a4fd955daece46b768ca3815ecaa6e72105a5c9db4b17931400debf9c5d2cae
+    home: https://github.com/Piwero/helm_git_repo
+    maintainers:
+    - name: Piwero
+      url: https://piwero.com
+    name: piwhelm
+    type: library
+    urls:
+    - https://github.com/Piwero/piwhelm/releases/download/piwhelm-0.0.0002/piwhelm-0.0.0002.tgz
+    version: 0.0.0002
+generated: "2024-04-27T10:53:11.357633841Z"

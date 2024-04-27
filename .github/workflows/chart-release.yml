@@ -29,7 +29,7 @@ jobs:
           VERSION=${{github.ref_name}}
           rm -rf .cr-release-packages
           mkdir -p .cr-release-packages
-          helm package charts/youtube-stats-chart --app-version=${VERSION:1} --version=${VERSION:1} --destination=.cr-release-packages
+          helm package piwhelm/charts --app-version=${VERSION:1} --version=${VERSION:1} --destination=.cr-release-packages
           echo "Package created successfully for ${VERSION:1}"
 
       - name: Run chart-releaser

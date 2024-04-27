@@ -14,7 +14,7 @@ PiwHelm simplifies the deployment process of Kubernetes applications with Traefi
     dependencies:
       - name: piwhelm
         version: "0.0.6" # or specify the latest version 
-        repository: "https://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@raw.githubusercontent.com/Piwero/helm_git_repo/master" 
+        repository: "https://raw.githubusercontent.com/Piwero/piwhelm/master" 
 
     ```
 

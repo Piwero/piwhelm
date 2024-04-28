@@ -113,3 +113,6 @@ global:
                 name: service_name
                 namespace: ""
                 port: 80
+    extraLabels: # Extra labels for all the manifests (optional)
+#      label1: value1
+#      label2: value2

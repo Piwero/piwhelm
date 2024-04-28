@@ -18,6 +18,6 @@ labels:
     release: {{ .Release.Name }}
     version: {{ .Chart.Version }}
     {{- if $dict.extraLabels }}
-    {{- include $dict.extraLabels . }}
+    {{- toYaml $dict.extraLabels | nindent 4 }}
     {{- end }}
 {{- end }}

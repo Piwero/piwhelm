@@ -6,6 +6,8 @@ on:
       - main
 jobs:
   semantic-release:
+    permissions:
+      contents: write
     name: Tag and release latest version
     runs-on: ubuntu-22.04
     steps:

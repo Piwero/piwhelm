@@ -1,3 +1,10 @@
+# [0.2.0](https://github.com/Piwero/piwhelm/compare/v0.1.0...v0.2.0) (2024-05-03)
+
+
+### Features
+
+* **renovate:** Creates versions from renovate PRs ([87d7c3f](https://github.com/Piwero/piwhelm/commit/87d7c3f9fde6b9afbfd0b286db8720ee58820ecd))
+
 # [0.1.0](https://github.com/Piwero/piwhelm/compare/v0.0.10...v0.1.0) (2024-05-03)
 
 

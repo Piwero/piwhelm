@@ -1,0 +1,54 @@
+name: Release Semantic
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  semantic-release:
+    name: Tag and release latest version
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 14
+      - name: Execute Semantic Release
+        id: semantic
+        uses: cycjimmy/semantic-release-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          semantic_version: 17
+          extra_plugins: |
+            "@semantic-release/commit-analyzer"
+            "@semantic-release/release-notes-generator"
+            "@semantic-release/github"
+            "@semantic-release/git"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+
+      - name: Custom Packaging
+        if: steps.semantic.outputs.new_release_published == 'true'
+        run: |
+          VERSION=${{github.ref_name}}
+          rm -rf .cr-release-packages
+          mkdir -p .cr-release-packages
+          helm package charts/piwhelm --app-version=${VERSION:1} --version=${VERSION:1} --destination=.cr-release-packages
+          echo "Package created successfully for ${VERSION:1}"
+
+      - name: Run chart-releaser
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: helm/chart-releaser-action@v1.6.0
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

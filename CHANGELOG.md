@@ -1,3 +1,10 @@
+## [0.2.2](https://github.com/Piwero/piwhelm/compare/v0.2.1...v0.2.2) (2024-05-06)
+
+
+### Reverts
+
+* Revert "ci(helm-releaser): Set up for helm releases" ([116917c](https://github.com/Piwero/piwhelm/commit/116917c593e9314c1ee2413b4a95faeb0a99830e))
+
 # [0.2.0](https://github.com/Piwero/piwhelm/compare/v0.1.0...v0.2.0) (2024-05-03)
 
 

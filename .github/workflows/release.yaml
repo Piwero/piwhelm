@@ -1,0 +1,92 @@
+name: Release Charts
+
+concurrency:
+  group: ${{ github.workflow }}
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+
+      - uses: engineerd/configurator@v0.0.10
+        with:
+          name: "helm-docs"
+          url: "https://github.com/norwoodj/helm-docs/releases/download/v1.11.0/helm-docs_1.11.0_Linux_x86_64.tar.gz"
+          pathInArchive: "helm-docs"
+
+      - uses: engineerd/configurator@v0.0.10
+        with:
+          name: "cr"
+          url: "https://github.com/helm/chart-releaser/releases/download/v1.6.0/chart-releaser_1.6.0_linux_amd64.tar.gz"
+          pathInArchive: "cr"
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v43
+        with:
+          dir_names_max_depth: 2
+          dir_names_exclude_current_dir: "true"
+          dir_names: "true"
+          files: "charts/**/*"
+
+      - name: Helm Deps
+        run: |
+          ITER=0
+          for dir in $(find charts -name Chart.lock -exec dirname {} \;); do
+            pushd "$dir"
+            for url in $(grep repository Chart.yaml | awk '{print $2}' | sort | uniq); do
+              helm repo add repo${ITER} ${url}
+              ITER=$(expr $ITER + 1)
+            done
+            helm dependency build
+            popd
+          done
+
+      - name: Bump version
+        if: steps.changed-files.outputs.any_changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          ALL_CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: |
+          npm install ci
+          mkdir .cr-release-packages
+          for dir in ${ALL_CHANGED_FILES}; do
+            pushd "$dir";
+
+            cp -f ../../cr.yaml ./
+            cp -f ../../release.config.cjs ./
+            ln -s ../../.cr-release-packages
+
+            export CHART_NAME=$(basename $(pwd))
+            npx semantic-release;
+
+            popd;
+          done
+
+          echo "CR Index"
+          [ "$(ls -A .cr-release-packages)" ] && cr index -o "halkeye" -r "helm-charts" --push --packages-with-index --index-path .

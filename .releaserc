@@ -14,7 +14,7 @@
     [
       'semantic-release-helm3',
       {
-        chartPath: 'charts/helm-1',
+        chartPath: 'charts/piwhelm',
         onlyUpdateVersion: true
       }
     ]

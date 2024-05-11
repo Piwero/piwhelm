@@ -8,7 +8,7 @@
     [
       "@semantic-release/changelog",
       {
-        "changelogFile": "charts/helm-1/CHANGELOG.md"
+        "changelogFile": "charts/piwhelm/CHANGELOG.md"
       }
     ],
     [

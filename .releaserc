@@ -11,6 +11,7 @@
         "changelogFile": "charts/piwhelm/CHANGELOG.md"
       }
     ],
+    "@semantic-release/npm",
     [
       'semantic-release-helm3',
       {

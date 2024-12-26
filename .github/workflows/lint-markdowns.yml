@@ -18,7 +18,7 @@ jobs:
       - name: Install markdownlint
         run: npm install -g markdownlint-cli@0.39.0
       - name: Checkout project
-        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29
+        uses: actions/checkout@cbb722410c2e876e24abbe8de2cc27693e501dcb
       - name: Execute markdownlint
         env:
           DIFF_URL: "${{github.event.pull_request.diff_url}}"

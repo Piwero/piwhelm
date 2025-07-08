@@ -22,7 +22,24 @@ global:
           data:
             secretkey3: value3
             secretkey4: value4
-
+      externalSecrets: # External secrets configuration section (optional)
+        - name: external-secret-1
+          apiVersion: external-secrets.io/v1
+          kind: ClusterSecretStore
+          storeName: kubernetes
+          data:
+            - secretKey: API_TOKEN
+              remoteRef:
+                key: my-secret-ref-name-1
+                property: credential
+            - secretKey: EMAIL
+              remoteRef:
+                key: my-secret-ref-name-1
+                property: email
+            - secretKey: DOMAIN
+              remoteRef:
+                key: my-secret-ref-name-1
+                property: domain
     deployment: # Deployment configuration section
       enabled: true
       name: piwhelm

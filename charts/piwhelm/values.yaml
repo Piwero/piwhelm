@@ -76,60 +76,54 @@ global:
       enabled: true
 
     services: # Kubernetes services configuration section (optional)
-      - name: ""
-        enabled: false
-        type: ClusterIP
-        ports: # Service ports
+      - name: my-service # required if enabled
+        enabled: true # set to true to render this service
+        type: ClusterIP # defaults to ClusterIP if not specified
+        ports: # Service ports (required if enabled)
           - name: http
             protocol: TCP
             port: 80
-            targetPort: 0000
-          - name: https
-            protocol: TCP
-            port: 443
-            targetPort: 0000
-
-    pvs: # PersistentVolumes configuration section (optional)
-      - name: ""
-        enabled: false
-        storageClassName: ""
-        capacity:
-          storage: 1Gi
-        accessModes: [ReadWriteMany]
-        persistentVolumeReclaimPolicy: Retain
-        nfs:
-          path: ""
-          server: ""
-          readOnly: false
+            targetPort: 8080
 
     pvcs: # PersistentVolumeClaims configuration section (optional)
-    - name: ""
-      enabled: false
-      storageClassName: ""
-      volumeName: ""
-      accessModes: [ReadWriteMany]
-      volumeMode: Filesystem
-      storage: 1Gi
-
+      - name: my-pvc # required if enabled
+        enabled: true # set to true to render this PVC
+        storageClassName: standard # optional, defaults to empty
+        volumeName: my-volume # optional
+        accessModes: [ReadWriteMany] # defaults to empty list if not specified
+        volumeMode: Filesystem # optional
+        storage: 1Gi # required if enabled
+    pvs: # PersistentVolumes configuration section (optional)
+      - name: my-pv # required if enabled
+        enabled: true # set to true to render this PV
+        storageClassName: standard # optional, defaults to empty
+        capacity:
+          storage: 1Gi # required if enabled
+        accessModes: [ReadWriteMany] # defaults to empty list if not specified
+        persistentVolumeReclaimPolicy: Retain # defaults to Delete if not specified
+        nfs:
+          path: /mnt/data # required if enabled
+          server: 10.0.0.1 # required if enabled
+          readOnly: false # defaults to false
     ingressroutes: # Ingress routes configuration section (optional)
-      - name: ""
-        apiVersion: traefik.io/v1alpha1
-        enabled: false
-        serviceName: ""
+      - name: my-ingressroute # required if enabled
+        apiVersion: traefik.io/v1alpha1 # defaults to traefik.io/v1alpha1 if not specified
+        enabled: true # set to true to render this ingress route
+        serviceName: my-service # optional
         entryPoints:
           - web
           - websecure
         routes:
-          - match: Host(`your_domain.com`)
-            enabled: true
-            kind: Rule
-            middlewares: [ ]
+          - match: Host(`your_domain.com`) # required if enabled
+            enabled: true # set to true to render this route
+            kind: Rule # defaults to Rule if not specified
+            middlewares: [] # optional, defaults to empty list
             services:
-              - kind: Service
-                enabled: true
-                name: service_name
-                namespace: ""
-                port: 80
+              - kind: Service # defaults to Service if not specified
+                enabled: true # set to true to render this service
+                name: my-service # required if enabled
+                namespace: repoflow # optional, defaults to release namespace
+                port: 80 # required if enabled
     extraLabels: # Extra labels for all the manifests (optional)
-#      label1: value1
-#      label2: value2
+      label1: value1
+      label2: value2

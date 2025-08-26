@@ -83,6 +83,88 @@ If any required field is missing, Helm will fail with a descriptive error. This 
 
 Refer to the templates in `charts/piwhelm/templates/` for more details on how secrets are rendered.
 
+## Resource Configuration Reference
+
+All resource types now use robust error handling and sensible defaults. Below are examples and documentation for each section in `values.yaml`:
+
+### PersistentVolumeClaims (pvcs)
+
+```yaml
+pvcs:
+  - name: my-pvc # required if enabled
+    enabled: true
+    storageClassName: standard # optional
+    volumeName: my-volume # optional
+    accessModes: [ReadWriteMany] # defaults to empty list
+    volumeMode: Filesystem # optional
+    storage: 1Gi # required
+```
+
+### PersistentVolumes (pvs)
+
+```yaml
+pvs:
+  - name: my-pv # required if enabled
+    enabled: true
+    storageClassName: standard # optional
+    capacity:
+      storage: 1Gi # required
+    accessModes: [ReadWriteMany] # defaults to empty list
+    persistentVolumeReclaimPolicy: Retain # defaults to Delete
+    nfs:
+      path: /mnt/data # required
+      server: 10.0.0.1 # required
+      readOnly: false # defaults to false
+```
+
+### Services
+
+```yaml
+services:
+  - name: my-service # required if enabled
+    enabled: true
+    type: ClusterIP # defaults to ClusterIP
+    ports:
+      - name: http
+        protocol: TCP
+        port: 80
+        targetPort: 8080
+```
+
+### IngressRoutes
+
+```yaml
+ingressroutes:
+  - name: my-ingressroute # required if enabled
+    apiVersion: traefik.io/v1alpha1 # defaults to traefik.io/v1alpha1
+    enabled: true
+    serviceName: my-service # optional
+    entryPoints:
+      - web
+      - websecure
+    routes:
+      - match: Host(`your_domain.com`) # required
+        enabled: true
+        kind: Rule # defaults to Rule
+        middlewares: [] # optional
+        services:
+          - kind: Service # defaults to Service
+            enabled: true
+            name: my-service # required
+            namespace: repoflow # optional
+            port: 80 # required
+```
+
+### Extra Labels
+
+```yaml
+extraLabels:
+  label1: value1
+  label2: value2
+```
+
+All templates will fail fast if required values are missing, ensuring robust and predictable deployments. See `values.yaml` for more details and examples.
+
 ## Development
 
 1. Grant execution permissions to all shell scripts within the project:

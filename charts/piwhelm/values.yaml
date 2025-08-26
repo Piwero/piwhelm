@@ -3,35 +3,35 @@ global:
   piwhelm: # to be replaced with chart name
     secrets: # Secrets configuration section
       imageCredentials: # Credentials secrets configuration section (optional)
-        name: my-credentials
-        enabled: true
-        registry: quay.io
-        username: someone
-        password: sillyness
-        email: someone@host.com
+        name: my-credentials # required if enabled
+        enabled: true # set to true to render image pull secret
+        registry: quay.io # required if enabled
+        username: someone # required if enabled
+        password: sillyness # required if enabled
+        email: someone@host.com # required if enabled
       otherSecrets:
-        - name: secret1
-          enabled: true
-          type: Opaque
-          data:
+        - name: secret1 # required if enabled
+          enabled: true # set to true to render this secret
+          type: Opaque # defaults to Opaque if not specified
+          data: # key-value pairs, values will be base64 encoded
             secretkey1: value1
             secretkey2: value2
         - name: secret2
-          enabled: false
+          enabled: false # not rendered if false
           type: Opaque
           data:
             secretkey3: value3
             secretkey4: value4
       externalSecrets: # External secrets configuration section (optional)
-        - name: external-secret-1
-          apiVersion: external-secrets.io/v1
-          kind: ClusterSecretStore
-          storeName: kubernetes
+        - name: external-secret-1 # required
+          apiVersion: external-secrets.io/v1 # defaults to external-secrets.io/v1 if not specified
+          kind: ClusterSecretStore # defaults to ClusterSecretStore if not specified
+          storeName: kubernetes # defaults to kubernetes if not specified
           data:
-            - secretKey: API_TOKEN
+            - secretKey: API_TOKEN # required
               remoteRef:
-                key: my-secret-ref-name-1
-                property: credential
+                key: my-secret-ref-name-1 # required
+                property: credential # required
             - secretKey: EMAIL
               remoteRef:
                 key: my-secret-ref-name-1

@@ -30,6 +30,55 @@ PiwHelm simplifies the deployment process of Kubernetes applications with Traefi
     helm install <NAME_OF_NEW_APP> . --namespace <NAME_OF_NEW_NS> --create-namespace
     ```
 
+## Secrets and Image Pull Secrets
+
+PiwHelm now uses Helm best practices for secrets management:
+
+- **Required fields**: If a required value (e.g., secret name, image credentials) is missing, Helm will fail fast with a clear error message.
+- **Enabled flags**: Only secrets with `enabled: true` are rendered.
+- **Defaults**: Secret types default to `Opaque` if not specified.
+- **Base64 encoding**: All secret data is automatically base64 encoded.
+- **External secrets**: Supports rendering ExternalSecret resources using the `externalSecrets` section.
+- **Image pull secrets**: Docker registry credentials are securely encoded and rendered only if `imageCredentials.enabled` is true.
+
+### Example values.yaml
+
+```yaml
+global:
+  <chartName>:
+    secrets:
+      imageCredentials:
+        name: my-credentials # required if enabled
+        enabled: true
+        registry: quay.io # required if enabled
+        username: someone # required if enabled
+        password: sillyness # required if enabled
+        email: someone@host.com # required if enabled
+      otherSecrets:
+        - name: secret1
+          enabled: true
+          type: Opaque
+          data:
+            secretkey1: value1
+            secretkey2: value2
+      externalSecrets:
+        - name: external-secret-1
+          apiVersion: external-secrets.io/v1
+          kind: ClusterSecretStore
+          storeName: kubernetes
+          data:
+            - secretKey: API_TOKEN
+              remoteRef:
+                key: my-secret-ref-name-1
+                property: credential
+```
+
+### Error Handling
+
+If any required field is missing, Helm will fail with a descriptive error. This ensures robust and predictable deployments.
+
+Refer to the templates in `charts/piwhelm/templates/` for more details on how secrets are rendered.
+
 ## Development
 
 1. Grant execution permissions to all shell scripts within the project:

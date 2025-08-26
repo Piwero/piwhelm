@@ -26,19 +26,19 @@ global:
         - name: external-secret-1 # required
           apiVersion: external-secrets.io/v1 # defaults to external-secrets.io/v1 if not specified
           kind: ClusterSecretStore # defaults to ClusterSecretStore if not specified
-          storeName: kubernetes # defaults to kubernetes if not specified
+          storeName: 1password # defaults to 1password for 1Password integration
           data:
             - secretKey: API_TOKEN # required
               remoteRef:
-                key: my-secret-ref-name-1 # required
-                property: credential # required
+                key: my-1password-item-id # required (1Password item ID)
+                property: credential # required (1Password field name)
             - secretKey: EMAIL
               remoteRef:
-                key: my-secret-ref-name-1
+                key: my-1password-item-id
                 property: email
             - secretKey: DOMAIN
               remoteRef:
-                key: my-secret-ref-name-1
+                key: my-1password-item-id
                 property: domain
     deployment: # Deployment configuration section
       enabled: true

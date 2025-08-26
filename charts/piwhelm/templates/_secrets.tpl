@@ -27,7 +27,7 @@ data:
 {{- /*
   Template: piwhelm.manifest.externalSecrets
   Renders ExternalSecret resources from values.yaml
-  Usage: Only if 'externalSecrets' is present.
+  Usage: Reads from values.yaml and creates ExternalSecret resources with standard structure.
 */}}
 {{- define "piwhelm.manifest.externalSecrets" }}
 {{ $dict := (get .Values.global .Chart.Name )}}
@@ -35,10 +35,11 @@ data:
 {{ $externalSecrets := $dict.externalSecrets }}
 {{- range $externalSecrets }}
 ---
-apiVersion: {{ .apiVersion | default "external-secrets.io/v1" }}
+apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: {{ .name | default (printf "%s-external-secret" $.Chart.Name) }}
+  name: {{ .name | required "Missing name in externalSecret" }}
+  namespace: {{ .namespace | default $.Release.Namespace }}
 {{- include "metadata" $ | indent 2 }}
 spec:
   secretStoreRef:

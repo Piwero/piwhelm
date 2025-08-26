@@ -38,7 +38,7 @@ PiwHelm now uses Helm best practices for secrets management:
 - **Enabled flags**: Only secrets with `enabled: true` are rendered.
 - **Defaults**: Secret types default to `Opaque` if not specified.
 - **Base64 encoding**: All secret data is automatically base64 encoded.
-- **External secrets**: Supports rendering ExternalSecret resources using the `externalSecrets` section.
+- **External secrets**: Now defaults to 1Password integration. The `storeName` for external secrets is set to `1password` by default, making it easy to use 1Password as your secret manager. You can override this if needed.
 - **Image pull secrets**: Docker registry credentials are securely encoded and rendered only if `imageCredentials.enabled` is true.
 
 ### Example values.yaml
@@ -65,12 +65,16 @@ global:
         - name: external-secret-1
           apiVersion: external-secrets.io/v1
           kind: ClusterSecretStore
-          storeName: kubernetes
+          storeName: 1password # default for 1Password integration
           data:
             - secretKey: API_TOKEN
               remoteRef:
-                key: my-secret-ref-name-1
-                property: credential
+                key: my-1password-item-id # 1Password item ID
+                property: credential # 1Password field name
+            - secretKey: EMAIL
+              remoteRef:
+                key: my-1password-item-id
+                property: email
 ```
 
 ### Error Handling
